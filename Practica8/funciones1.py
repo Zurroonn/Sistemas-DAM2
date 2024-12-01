@@ -26,7 +26,7 @@ def mayor(x,y):
         return y
     else:
         return x
+
 def funcion(func1, arg1, func2, arg2):
     return func1(*arg1), func2(*arg2)
 resultado=funcion(mayor,(10,5),peque,(habitaciones,))
-print(resultado)
