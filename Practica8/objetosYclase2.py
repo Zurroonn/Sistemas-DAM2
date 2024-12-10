@@ -141,7 +141,7 @@ hibrido2.mover()
 
 reproduce=reproductor("MxOnda")
 turismo1=turismo("Seat Ateca",True,"Parado",4.40,23000,reproduce)
-turismo1.radio.cantar()
+##turismo1.radio.cantar()
 
 
 

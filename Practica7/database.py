@@ -18,3 +18,6 @@ print(data)
 insertar="""INSERT INTO customer (customer_id,store_id,address_id,first_name,last_name,email) VALUES (%s, %s, %s,%s,%s,%s);"""
 cursor.execute(insertar,data)
 print("Insertado")
+
+
+
