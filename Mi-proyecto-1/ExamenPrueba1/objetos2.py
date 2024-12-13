@@ -1,20 +1,13 @@
 from paquete2.funciones2A import  verdad
 
 class animal:
-    def __init__(self,nombre,orden,continentes,alimentacion,num_animales):
+    num_animales=0
+    def __init__(self,nombre,orden,continentes,alimentacion):
         self.nombre=nombre
         self.orden=orden
         self.continentes=continentes
         self.alimentacion=alimentacion
-        self._num_animales=0
-        animal.num_animales+=num_animales
-    @property
-    def num_animales(self):
-        return self.num_animales
-
-    @num_animales.setter
-    def num_animales(self, value):
-        self._num_animales = value
+        animal.num_animales=animal.num_animales +1
 
     def datos (self):
         print(f"[DEBUG]{self.nombre},{self.orden},{self.alimentacion}")
@@ -36,7 +29,7 @@ class perro(animal):
 
     def datos(self):
         animal.datos()
-        print(f"[DEBUG]{self.pedigri}")
+        print(f"{self.pedigri=}")
 
     def __lt__(self, other):
         if isinstance(other, perro):

@@ -35,8 +35,9 @@ class galgo(perro):
         valores=(*super().datos(),self.velocidad)
         return valores
 
-    def __lt__(self, other):
+    def __add__(self, other):
         if isinstance(other,galgo):
-            return self.peso+self.peso
+            return self.peso+other.peso
         return NotImplemented
+
 
