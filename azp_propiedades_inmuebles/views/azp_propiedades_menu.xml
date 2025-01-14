@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <menuitem id="azp_propiedades_menu_root" name="Propiedades Inmobiliarias">
+        <menuitem id="azp_propiedades_first_level_menu1" name="Anuncios">
+            <menuitem id="azp_propiedades_submenu" name="Propiedades" action="azp_propiedades_inmuebles_action"/>
+        </menuitem>
+        <menuitem id="azp_propiedades_first_level_menu2" name="Configuración">
+            <menuitem id="azp_tipos_submenu" name="Tipos de inmuebles" action="azp_tipos_inmuebles_action"/>
+            <menuitem id="azp_etiquetas_submenu" name="Etiquetas de inmuebles" action="azp_etiquetas_inmuebles_action"/>
+        </menuitem>
+    </menuitem>
+</odoo>

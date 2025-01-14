@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_azp_inmuebles,azp_propiedades_inmuebles,model_azp_propiedades_inmuebles,base.group_user,1,1,1,1
+access_azp_tipos_inmuebles,azp_tipos_inmuebles,model_azp_tipos_inmuebles,base.group_user,1,1,1,1
+access_azp_etiquetas_inmuebles,azp_etiquetas_inmuebles,model_azp_etiquetas_inmuebles,base.group_user,1,1,1,1
+access_azp_ofertas_inmuebles,azp_ofertas_inmuebles,model_azp_ofertas_inmuebles,base.group_user,1,1,1,1

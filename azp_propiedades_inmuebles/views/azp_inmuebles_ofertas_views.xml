@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="azp_ofertas_inmuebles_view_tree" model="ir.ui.view">
+        <field name="name">azp_ofertas.inmuebles.tree</field>
+        <field name="model">azp_ofertas_inmuebles</field>
+        <field name="arch" type="xml">
+            <tree string="Listado" editable ="bottom" decoration-success="estado=='aceptada'" decoration-danger="estado=='rechazada'">
+                <field name="precio"/>
+                <field name="comprador_id"/>
+                <field name="validez"/>
+                <field name="fecha_tope"/>
+                    <button name="action_aceptar_oferta" icon="fa-check" type="object" attrs="{'invisible': [('estado', 'in', ('aceptada', 'rechazada'))]}"/>
+                    <button name="action_rechazar_oferta" icon="fa-times" type="object" attrs="{'invisible': [('estado', 'in', ('aceptada', 'rechazada'))]}"/>
+                <field name="estado"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="azp_ofertas_inmuebles_view_form" model="ir.ui.view">
+        <field name="name">azp_ofertas.inmuebles.form</field>
+        <field name="model">azp_ofertas_inmuebles</field>
+        <field name="arch" type="xml">
+            <form string="Registro">
+                <sheet>
+                    <group>
+                        <field name="precio"/>
+                        <field name="comprador_id"/>
+                        <field name="validez"/>
+                        <field name="fecha_tope"/>
+                        <field name="estado"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+</odoo>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="azp_formato_papel_ofertas_propiedades_report" model="report.paperformat">
+        <field name="name">Formato Papel Ofertas Propiedades JAVV</field>
+        <field name="default" eval="False"/>
+        <field name="format">custom</field>
+        <field name="page_height">240</field>
+        <field name="page_width">150</field>
+        <field name="orientation">Landscape</field>
+        <field name="margin_top">25</field>
+        <field name="margin_bottom">10</field>
+        <field name="margin_left">20</field>
+        <field name="margin_right">20</field>
+        <field name="header_line" eval="True"/>
+        <field name="header_spacing">20</field>
+        <field name="dpi">100</field>
+    </record>
+
+    <record id="azp_ofertas_propiedades_report" model="ir.actions.report">
+        <field name="name">Ofertas de Propiedades</field>
+        <field name="model">azp_propiedades_inmuebles</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">azp_propiedades.ofertas_propiedades_report_template</field>
+        <field name="report_file">azp_propiedades.ofertas_propiedades_report_template</field>
+        <field name="paperformat_id" ref="azp_formato_papel_ofertas_propiedades_report"/>
+        <field name="print_report_name">'Informe de Ofertas de Propiedades'</field>
+        <field name="binding_model_id" ref="model_azp_propiedades_inmuebles"/>
+        <field name="binding_type">report</field>
+    </record>
+</odoo>

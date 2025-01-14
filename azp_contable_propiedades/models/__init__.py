@@ -1,0 +1,1 @@
+from . import azp_inmuebles

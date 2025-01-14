@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Acción para Vehículos -->
+    <record id="azp_vehiculos_action" model="ir.actions.act_window">
+        <field name="name">Listado de Vehículos</field>
+        <field name="res_model">azp_vehiculos</field>
+        <field name="view_mode">kanban,tree,form</field>
+        <field name="context">{'default_group_by': 'tipo_vehiculo_id'}</field>
+    </record>
+
+    <!-- Vista Kanban -->
+    <record id="azp_vehiculos_view_kanban" model="ir.ui.view">
+        <field name="name">Kanban de Vehículos</field>
+        <field name="model">azp_vehiculos</field>
+        <field name="arch" type="xml">
+            <kanban default_group_by="tipo_vehiculo_id" create="true" quick_create="false">
+                <templates>
+                    <t t-name="kanban-box">
+                        <div t-att-class="'oe_kanban_global_click'">
+                            <div class="oe_kanban_content">
+                                <strong><field name="name"/></strong>
+                                <div>
+                                    <t t-if="record.state.raw_value == 'alquilado'">
+                                        <span>Precio Diario: <field name="precio_diario"/></span>
+                                    </t>
+                                    <t t-if="record.state.raw_value == 'en_reparacion'">
+                                        <span>Estado: <field name="state"/></span>
+                                    </t>
+                                    <span>Matricula: <field name="matricula"/></span>
+                                    <br/>
+                                    <field name="caracteristicas_ids" widget="many2many_tags"/>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <!-- Vista de árbol -->
+    <record id="azp_vehiculos_view_tree" model="ir.ui.view">
+        <field name="name">Lista de Vehículos</field>
+        <field name="model">azp_vehiculos</field>
+        <field name="arch" type="xml">
+            <tree string="Listado de Vehículos">
+                <field name="name"/>
+                <field name="codigo"/>
+                <field name="matricula"/>
+                <field name="num_plazas" optional="show"/> <!-- Visible por defecto -->
+                <field name="neumatico" optional="show"/> <!-- Visible por defecto -->
+                <field name="fecha_fabricacion" optional="hide"/> <!-- Oculto por defecto -->
+                <field name="fecha_itv" optional="hide"/> <!-- Oculto por defecto -->
+                <field name="combustible"/>
+                <field name="precio_diario"/>
+                <field name="precio_semanal"/>
+                <field name="state"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Vista de formulario -->
+    <record id="azp_vehiculos_view_form" model="ir.ui.view">
+        <field name="name">azp_vehiculos.form</field>
+        <field name="model">azp_vehiculos</field>
+        <field name="arch" type="xml">
+            <form string="Vehículo">
+                <header>
+                    <field name="state" widget="statusbar"/>
+                    <button name="action_comenzar_reparacion"
+                            string="Comenzar Reparación"
+                            type="object"
+                            class="btn-primary"
+                            attrs="{'invisible': [('state', '!=', 'disponible')]}"/>
+                    <button name="action_terminar_reparacion"
+                            string="Terminar Reparación"
+                            type="object"
+                            class="btn-secondary"
+                            attrs="{'invisible': [('state', '!=', 'en_reparacion')]}"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name"/>
+                            <field name="codigo"/>
+                        </h1>
+                    </div>
+                    <field name="caracteristicas_ids" widget="many2many_tags"/>
+                    <group>
+                        <group>
+                            <field name="matricula"/>
+                            <field name="tipo_vehiculo_id"/>
+                            <field name="numero_alquileres" readonly="1"/>
+                        </group>
+                        <group>
+                            <field name="fecha_fabricacion"/>
+                            <field name="fecha_itv"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Características">
+                            <group>
+                                <field name="potencia"/>
+                                <field name="num_plazas"/>
+                                <field name="combustible"/>
+                                <field name="neumatico"/>
+                                <field name="maletero"/>
+                                <field name="capacidad_maletero"/>
+                            </group>
+                        </page>
+                        <page string="Precios">
+                            <group>
+                                <field name="precio_diario"/>
+                                <field name="precio_semanal" readonly="1"/>
+                            </group>
+                        </page>
+                        <page string="Alquileres">
+                            <field name="alquileres_ids" readonly="1">
+                                <tree string="Alquileres">
+                                    <field name="cliente_id"/>
+                                    <field name="fecha_inicio"/>
+                                    <field name="fecha_fin"/>
+                                    <field name="duracion"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Vista de búsqueda -->
+    <record id="azp_vehiculos_view_search" model="ir.ui.view">
+        <field name="name">vehiculos.search</field>
+        <field name="model">azp_vehiculos</field>
+        <field name="arch" type="xml">
+            <search string="Búsqueda de Vehículos">
+                <field name="name"/>
+                <field name="codigo"/>
+                <field name="matricula"/>
+                <field name="fecha_fabricacion" filter_domain="[('fecha_fabricacion', '>=', self)]"/>
+                <field name="combustible"/>
+                <separator/>
+                <group expand="1" string="Agrupar">
+                    <filter string="Número de Plazas" name="group_num_plazas" context="{'group_by': 'num_plazas'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+</odoo>

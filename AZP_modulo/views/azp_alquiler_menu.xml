@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Menú raíz -->
+    <menuitem id="azp_alquiler_vehiculos_menu_root" name="Alquiler de Vehículos" sequence="1"/>
+
+    <!-- Menú de primer nivel: Vehículos/Alquiler -->
+    <menuitem id="azp_vehiculos_alquiler_menu" parent="azp_alquiler_vehiculos_menu_root" name="Vehículos/Alquiler" sequence="10">
+        <menuitem id="azp_vehiculos_menu" name="Vehículos" action="azp_vehiculos_action" sequence="11"/>
+        <menuitem id="azp_alquileres_menu" name="Alquiler de Vehículos" action="azp_alquileres_vehiculos_action" sequence="12"/>
+    </menuitem>
+
+    <!-- Menú de primer nivel: Opciones -->
+    <menuitem id="azp_opciones_menu" parent="azp_alquiler_vehiculos_menu_root" name="Opciones" sequence="20">
+        <menuitem id="azp_tipos_vehiculos_menu" name="Tipos de Vehículos" action="azp_tipos_vehiculos_action" sequence="21"/>
+        <menuitem id="azp_caracteristicas_menu" name="Características Especiales" action="azp_caracteristicas_vehiculos_action" sequence="22"/>
+    </menuitem>
+</odoo>

@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <template id="ofertas_propiedades_report_template">
+        <t t-foreach="docs" t-as="propiedad">
+            <t t-call="web.html_container">
+                <t t-call="web.external_layout">
+
+                    <div class="page">
+                        <h2>
+                            <span t-field="propiedad.name"/>
+                        </h2>
+                        <div>
+                            <strong>Vendedor: </strong>
+                            <span t-field="propiedad.agente_id"/>
+                        </div>
+                        <div>
+                            <strong>Precio Esperado: </strong>
+                            <span t-field="propiedad.precio_esperado"/>
+                        </div>
+                        <div>
+                            <strong>Estado de la venta: </strong>
+                            <span t-field="propiedad.state"/>
+                        </div>
+                        <t t-call="azp_propiedades.ofertas_propiedades_report_template_tabla">
+                            <t t-set="ofertas" t-value="propiedad.mapped('ofertas_ids')"/>
+                        </t>
+                    </div>
+
+                    <div class="footer">
+                        <small>Informe sobre las ofertas de una propiedad inmueble.</small>
+                    </div>
+
+                </t>
+            </t>
+        </t>
+    </template>
+    <template id="ofertas_propiedades_report_template_tabla">
+        <t t-if="ofertas">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Precio</th>
+                        <th>Cliente</th>
+                        <th>Validez (días)</th>
+                        <th>Fecha Tope</th>
+                        <th>Estado</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr t-foreach="ofertas" t-as="oferta">
+                        <td><span t-field="oferta.precio"/></td>
+                        <td><span t-field="oferta.comprador_id"/></td>
+                        <td><span t-field="oferta.validez"/></td>
+                        <td><span t-field="oferta.fecha_tope"/></td>
+                        <td><span t-field="oferta.estado"/></td>
+                    </tr>
+                </tbody>
+            </table>
+        </t>
+        <t t-else="">
+            <br/><br/>
+            <div>
+                <strong>
+                    No se muestra la tabla de ofertas porque esta
+                    propiedad todavía no tiene ninguna asignada.
+                </strong>
+            </div>
+            <br/><br/>
+        </t>
+    </template>
+
+</odoo>

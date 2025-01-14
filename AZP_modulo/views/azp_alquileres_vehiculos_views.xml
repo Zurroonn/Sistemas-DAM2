@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Acción para Alquileres de Vehículos -->
+    <record id="azp_alquileres_vehiculos_action" model="ir.actions.act_window">
+        <field name="name">Listado de Alquileres</field>
+        <field name="res_model">azp_alquileres_vehiculos</field>
+        <field name="view_mode">tree,form</field>
+        <field name="context">{}</field>
+    </record>
+
+    <!-- Vista de árbol -->
+    <record id="azp_alquileres_vehiculos_view_tree" model="ir.ui.view">
+        <field name="name">Lista de Alquileres</field>
+        <field name="model">azp_alquileres_vehiculos</field>
+        <field name="arch" type="xml">
+            <tree string="Alquileres de Vehículos" default_order="state desc">
+                <field name="vehiculo_id"/>
+                <field name="state"/>
+                <field name="cliente_id"/>
+                <field name="usuario_id"/>
+                <field name="fecha_inicio"/>
+                <field name="fecha_fin"/>
+                <field name="duracion"/>
+                <field name="precio_final"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Vista de formulario -->
+    <record id="azp_alquileres_vehiculos_view_form" model="ir.ui.view">
+        <field name="name">azp_alquileres_vehiculos.form</field>
+        <field name="model">azp_alquileres_vehiculos</field>
+        <field name="arch" type="xml">
+            <form string="Alquiler de Vehículo">
+                <header>
+                    <field name="state" widget="statusbar"/>
+                    <button name="action_facturar" string="Facturar" type="object" class="btn-primary" states="terminado"/>
+                    <button name="action_cancelar" string="Cancelar" type="object" class="btn-secondary" states="previo,en_proceso"/>
+                    <button name="action_move_state_left" string="Cambiar estado izq" type="object" class="btn-secondary"/>
+                    <button name="action_move_state_right" string="Cambiar estado der" type="object" class="btn-secondary"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="vehiculo_id"/>
+                        </h1>
+                    </div>
+                    <notebook>
+                        <page string="Operación">
+                            <group>
+                                <field name="cliente_id" options="{'no_open': True}" widget="many2one"/> <!-- Evita abrir el registro del cliente -->
+                                <field name="usuario_id"/>
+                                <field name="precio_final" readonly="1"/>
+                            </group>
+                        </page>
+                        <page string="Fechas">
+                            <group>
+                                <field name="fecha_inicio"/>
+                                <field name="fecha_fin"/>
+                                <field name="duracion"/>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Vista de búsqueda -->
+    <record id="azp_alquileres_vehiculos_view_search" model="ir.ui.view">
+        <field name="name">alquileres.vehiculos.search</field>
+        <field name="model">azp_alquileres_vehiculos</field>
+        <field name="arch" type="xml">
+            <search string="Búsqueda de Alquileres">
+                <field name="vehiculo_id"/>
+                <field name="state"/>
+                <field name="cliente_id"/>
+                <field name="usuario_id"/>
+                <separator/>
+                <filter string="Duración &gt;= 7 días" name="duracion_7_dias" domain="[('duracion', '&gt;=', 7)]"/>
+                <filter string="Duración &lt; 7 días" name="duracion_menor_7_dias" domain="[('duracion', '&lt;', 7)]"/>
+                <group expand="1" string="Agrupar">
+                    <filter string="Estado" name="group_state" context="{'group_by':'state'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+</odoo>

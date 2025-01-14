@@ -1,0 +1,6 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_azp_vehiculos,azp_vehiculos,model_azp_vehiculos,base.group_user,1,1,1,1
+access_azp_tipos_vehiculos,azp_tipos_vehiculos,model_azp_tipos_vehiculos,base.group_user,1,1,1,1
+access_azp_caracteristicas_vehiculos,azp_caracteristicas_vehiculos,model_azp_caracteristicas_vehiculos,base.group_user,1,1,1,1
+access_azp_alquileres_vehiculos,azp_alquileres_vehiculos,model_azp_alquileres_vehiculos,base.group_user,1,1,1,1
+access_res_partner_alquileres,azp_res_partner_alquileres,model_res_partner,base.group_user,1,1,1,1

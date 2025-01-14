@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Acción para Características de Vehículos -->
+    <record id="azp_caracteristicas_vehiculos_action" model="ir.actions.act_window">
+        <field name="name">Listado de Características</field>
+        <field name="res_model">azp_caracteristicas_vehiculos</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <!-- Vista de árbol editable por arriba -->
+    <record id="azp_caracteristicas_vehiculos_view_tree" model="ir.ui.view">
+        <field name="name">Lista de Características</field>
+        <field name="model">azp_caracteristicas_vehiculos</field>
+        <field name="arch" type="xml">
+            <tree string="Características de Vehículos" editable="top">
+                <field name="sequence" widget="handle"/>
+                <field name="name"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Vista de formulario -->
+    <record id="azp_caracteristicas_vehiculos_view_form" model="ir.ui.view">
+        <field name="name">azp_caracteristicas_vehiculos.form</field>
+        <field name="model">azp_caracteristicas_vehiculos</field>
+        <field name="arch" type="xml">
+            <form string="Característica">
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <field name="sequence" invisible="1"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+</odoo>
