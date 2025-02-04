@@ -1,0 +1,25 @@
+<odoo>
+    <report
+        id="report_alquileres_usuarios"
+        model="res.users"
+        string="Informe de Alquileres por Usuario"
+        report_type="qweb-pdf"
+        file="modulo_nombre.report_alquileres_usuarios_template"
+        name="modulo_nombre.report_alquileres_usuarios_template"
+    />
+
+    <!-- Plantilla principal para el informe de alquileres por usuario -->
+    <template id="report_alquileres_usuarios_template">
+        <t t-call="web.external_layout">
+            <div class="page">
+                <h2 style="text-align: center; font-size: 20px;">Informe de Alquileres</h2>
+                <t t-foreach="docs" t-as="user">
+                    <h3 style="font-size: 18px;">Usuario: <t t-esc="user.name"/></h3>
+                    <t t-call="modulo_nombre.report_alquileres_subtemplate">
+                        <t t-set="alquileres" t-value="user.alquileres_ids"/>
+                    </t>
+                </t>
+            </div>
+        </t>
+    </template>
+</odoo>

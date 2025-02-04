@@ -1,10 +1,10 @@
-from odoo import fields, models
+from odoo import models, fields
 
-class ResPartner(models.Model):
-    _inherit = "res.partner"
+class azp_herencia(models.Model):
+    _inherit = 'res.partner'
 
     alquileres_ids = fields.One2many(
-        comodel_name="azp_alquileres_vehiculos",
-        inverse_name="cliente_id",
-        string="Alquileres de Vehículos"
+        comodel_name='azp_alquileres_vehiculos',
+        inverse_name='cliente_id',
+        string='Alquileres de Vehículos'
     )

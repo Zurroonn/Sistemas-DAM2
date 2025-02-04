@@ -9,12 +9,7 @@
         <field name="name">azp_alquileres_vehiculos.tree</field>
         <field name="model">azp_alquileres_vehiculos</field>
         <field name="arch" type="xml">
-            <tree decoration-success="state == 'terminado' or state == 'en_proceso'"
-                  decoration-bf="state == 'terminado'"
-                  decoration-danger="state == 'cancelado'"
-                  decoration-warning="state == 'previo'"
-                  decoration-primary="state == 'facturado'"
-                  decoration-it ="state == 'facturado'">
+            <tree string="Alquileres de Vehículos">
                 <field name="display_name"/>
                 <field name="state"/>
                 <field name="cliente_id"/>
@@ -23,8 +18,6 @@
                 <field name="fecha_fin"/>
                 <field name="duracion"/>
                 <field name="precio_final"/>
-                <button name="action_comprobar_estado_individual" type="object" icon="fa-check-square" string="Actualizar Estado"/>
-                <field name="state" readonly="1"/>
             </tree>
         </field>
     </record>
@@ -49,17 +42,10 @@
                     <notebook>
                         <page string="Operación">
                             <group>
-                                <field name="vehiculo_id" domain="[('state', '=', 'disponible')]" required="1"/>
-                                <field name="cliente_id" required="1"/>
-                                <field name="usuario_id" required="1"/>
+                                <field name="vehiculo_id" domain="[('state', '=', 'disponible')]"/>
+                                <field name="cliente_id"/>
+                                <field name="usuario_id"/>
                                 <field name="precio_final" readonly="1"/>
-                            </group>
-                        </page>
-                        <page string="Fechas">
-                            <group>
-                                <field name="fecha_inicio" required="1"/>
-                                <field name="fecha_fin"/>
-                                <field name="duracion"/>
                             </group>
                         </page>
                     </notebook>

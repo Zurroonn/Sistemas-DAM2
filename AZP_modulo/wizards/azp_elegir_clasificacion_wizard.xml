@@ -1,0 +1,26 @@
+<odoo>
+    <record id="view_elegir_clasificacion_wizard" model="ir.ui.view">
+        <field name="name">elegir.clasificacion.wizard.form</field>
+        <field name="model">azp.elegir_clasificacion_wizard</field>
+        <field name="arch" type="xml">
+            <form string="Elegir Clasificación Energética">
+                <group>
+                    <field name="tipo_vehiculo_id" readonly="1"/>
+                    <field name="combustible"/>
+                </group>
+                <footer>
+                    <button string="Aceptar" type="object" name="action_confirmar_clasificacion" class="btn-primary"/>
+                    <button string="Cancelar" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_elegir_clasificacion" model="ir.actions.act_window">
+        <field name="name">Elegir Clasificación Energética</field>
+        <field name="res_model">azp.elegir_clasificacion_wizard</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="view_elegir_clasificacion_wizard"/>
+        <field name="target">new</field>
+    </record>
+</odoo>

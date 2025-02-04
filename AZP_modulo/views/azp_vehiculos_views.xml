@@ -43,7 +43,10 @@
         <field name="name">Lista de Vehículos</field>
         <field name="model">azp_vehiculos</field>
         <field name="arch" type="xml">
-            <tree string="Listado de Vehículos">
+            <tree decoration-success="state == 'disponible' or state == 'alquilado'"
+                  decoration-bf="state == 'alquilado'"
+                  decoration-danger = "state == 'en_reparacion'"
+                  decoration-it = "state == 'en_reparacion'">
                 <field name="name"/>
                 <field name="codigo"/>
                 <field name="matricula"/>
@@ -66,6 +69,12 @@
         <field name="arch" type="xml">
             <form string="Vehículo">
                 <header>
+
+                    <button name="action_ver_modificar_recordset"
+                    string="Ver y modificar Recordset"
+                    type="object"
+                    class="btn-primary o_custom_margin"/>
+
                     <field name="state" widget="statusbar"/>
                     <button name="action_comenzar_reparacion"
                             string="Comenzar Reparación"
@@ -89,6 +98,10 @@
                     <group>
                         <group>
                             <field name="matricula"/>
+                            <button name="action_matricula_wizard"
+                            string="Generar Matrícula"
+                            type="object"
+                            class="oe_highlight o_genera_matricula_btn"/>
                             <field name="tipo_vehiculo_id"/>
                             <field name="numero_alquileres" readonly="1"/>
                         </group>
@@ -105,7 +118,7 @@
                                 <field name="combustible"/>
                                 <field name="neumatico"/>
                                 <field name="maletero"/>
-                                <field name="capacidad_maletero"/>
+                                <field name="capacidad_maletero" attrs="{'required': [('maletero', '=', True)]}"/>
                             </group>
                         </page>
                         <page string="Precios">

@@ -1,0 +1,64 @@
+<odoo>
+    <!-- Acción del informe -->
+    <record id="action_report_vehiculos_alquileres" model="ir.actions.report">
+        <field name="name">Informe de Vehículos y Alquileres</field>
+        <field name="model">azp_vehiculos</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">azp_vehiculos.report_vehiculos_alquileres</field>
+        <field name="report_file">azp_vehiculos.report_vehiculos_alquileres</field>
+        <field name="print_report_name">(object.name or 'Informe de Vehículos')</field>
+    </record>
+
+    <!-- Plantilla principal del informe -->
+    <template id="report_vehiculos_alquileres">
+        <t t-call="web.html_container">
+            <t t-call="web.external_layout">
+                <div class="page">
+                    <h2 t-field="doc.name" style="font-size: 18px; font-weight: bold;"/>
+                    <h3 t-field="doc.codigo" style="font-size: 18px; font-weight: bold;"/>
+                    <p><strong>Matrícula:</strong> <t t-field="doc.matricula"/></p>
+                    <p><strong>Número de plazas:</strong> <t t-field="doc.num_plazas"/></p>
+                    <p><strong>Fecha de fabricación:</strong> <t t-field="doc.fecha_fabricacion"/></p>
+                    <p><strong>Precio diario:</strong> <t t-field="doc.precio_diario"/></p>
+                    <p><strong>Precio semanal:</strong> <t t-field="doc.precio_semanal"/></p>
+
+                    <!-- Llamada a la subplantilla para alquileres -->
+                    <t t-call="azp_vehiculos.report_alquileres">
+                        <t t-foreach="doc.alquileres_ids" t-as="alquiler"/>
+                    </t>
+
+                    <!-- Mensaje si el vehículo está en reparación -->
+                    <t t-if="doc.estado == 'en_reparacion'">
+                        <div style="margin-top: 20px; text-align: center;">
+                            <p style="font-size: 24px; font-weight: bold; color: red;">
+                                ¡Este vehículo se encuentra en reparación!
+                            </p>
+                        </div>
+                    </t>
+                </div>
+            </t>
+        </t>
+    </template>
+
+    <!-- Subplantilla para la tabla de alquileres -->
+    <template id="report_alquileres">
+        <table class="table table-condensed">
+            <thead>
+                <tr>
+                    <th>Cliente</th>
+                    <th>Fecha Inicio</th>
+                    <th>Fecha Fin</th>
+                    <th>Precio Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr t-foreach="doc.alquileres_ids" t-as="alquiler">
+                    <td t-field="alquiler.cliente_id.name"/>
+                    <td t-field="alquiler.fecha_inicio"/>
+                    <td t-field="alquiler.fecha_fin"/>
+                    <td t-field="alquiler.precio_total"/>
+                </tr>
+            </tbody>
+        </table>
+    </template>
+</odoo>

@@ -1,5 +1,5 @@
 from odoo import fields, models, api
-from odoo.exceptions import ValidationError
+from odoo.exceptions import ValidationError, UserError
 from datetime import datetime, timedelta
 
 class AzpVehiculos(models.Model):
@@ -27,7 +27,7 @@ class AzpVehiculos(models.Model):
         "vehiculo_id",
         string="Alquileres"
     )
-    matricula = fields.Char(string="Matrícula", required=True)
+    matricula = fields.Char(string="Matrícula", required=False)
     potencia = fields.Integer(string="Potencia (CV)", default=100)
     num_plazas = fields.Integer(string="Número de Plazas", default=5)
     fecha_fabricacion = fields.Date(string="Fecha de Fabricación")
@@ -109,3 +109,63 @@ class AzpVehiculos(models.Model):
             if record.state != 'en_reparacion':
                 raise ValidationError("El vehículo debe estar en estado de reparación para finalizarla.")
             record.state = 'disponible'
+
+    def action_matricula_wizard(self):
+        self.ensure_one()
+        matricula = self.matricula or "0000XXX"
+        numero= matricula[:4]
+        letra = matricula[4:]
+
+        return {
+            'name': 'Generar Matrícula',
+            'type': 'ir.actions.act_window',
+            'res_model': 'azp.generar_matricula_wizard',
+            'view_mode': 'form',
+            'target': 'new',
+            'context': {
+                'default_vehiculo_id': self.id,
+                'default_numeros': numero,
+                'default_letras': letra,
+            }
+        }
+
+    def action_ver_modificar_recordset(self):
+        if not self:
+            raise UserError("No se han seleccionado vehículos.")
+
+        detalles_vehiculos = []
+        for vehiculo in self:
+            modelo = vehiculo.name or "Modelo desconocido"
+            placa = vehiculo.matricula or "Sin placa"
+            fabricacion = vehiculo.fecha_fabricacion.strftime(
+                "%d/%m/%Y") if vehiculo.fecha_fabricacion else "No disponible"
+            revision = vehiculo.fecha_itv.strftime("%d/%m/%Y") if vehiculo.fecha_itv else "No disponible"
+
+            categoria = vehiculo.tipo_vehiculo_id
+            tipo_vehiculo = categoria.name or "Sin especificar"
+            eficiencia = getattr(categoria, "clasificacion_energetica", "No clasificado")
+
+            detalle = (
+                f"Vehículo: {modelo}\n"
+                f"  - Matrícula: {placa}\n"
+                f"  - Fabricación: {fabricacion}\n"
+                f"  - ITV: {revision}\n"
+                f"  - Tipo: {tipo_vehiculo} (Eficiencia: {eficiencia})\n"
+            )
+            detalles_vehiculos.append(detalle)
+
+        total_alquileres = sum(vehiculo.numero_alquileres for vehiculo in self)
+        total_precio_diario = sum(vehiculo.precio_diario for vehiculo in self)
+        media_precio_diario = total_precio_diario / len(self) if self else 0
+
+        # Modificar propiedad "maletero"
+        self.write({'maletero': False})
+
+        resumen = (
+            f"\n---\n"
+            f"Total de alquileres: {total_alquileres}\n"
+            f"Precio diario medio: {media_precio_diario:.2f}\n"
+        )
+
+        mensaje = f"{'\n'.join(detalles_vehiculos)}{resumen}"
+        raise UserError(mensaje)

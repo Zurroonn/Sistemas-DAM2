@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <!-- Acción para Tipos de Vehículos -->
     <record id="azp_tipos_vehiculos_action" model="ir.actions.act_window">
@@ -7,26 +6,36 @@
         <field name="view_mode">kanban,tree,form</field>
     </record>
 
+    <!-- Acción para Alquileres de Vehículos -->
+    <record id="azp_alquileres_vehiculos_action" model="ir.actions.act_window">
+        <field name="name">Alquileres de Vehículos</field>
+        <field name="res_model">azp_alquileres_vehiculos</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[]</field> <!-- Se establecerá dinámicamente -->
+    </record>
+    <record id="azp_generate_tipo_vehiculo_action" model="ir.actions.server">
+        <field name="name">Generar tipo de vehiculo</field>
+        <field name="model_id" ref="model_azp_tipos_vehiculos"/>
+        <field name="state">code</field>
+        <field name="code">
+            model.action_generar_tipo_vehiculo()
+        </field>
+    </record>
     <!-- Vista Kanban -->
     <record id="azp_tipos_vehiculos_view_kanban" model="ir.ui.view">
-        <field name="name">Kanban de Tipos de Vehículos</field>
+        <field name="name">azp_tipos_vehiculos.kanban</field>
         <field name="model">azp_tipos_vehiculos</field>
         <field name="arch" type="xml">
             <kanban>
                 <templates>
                     <t t-name="kanban-box">
-                        <div t-att-class="'oe_kanban_global_click'">
+                        <div class="oe_kanban_card">
                             <div class="oe_kanban_content">
-                                <!-- Campo Nombre -->
                                 <strong><field name="name"/></strong>
-
-                                <!-- Clasificación Energética -->
-                                <t t-if="record.clasificacion_energetica and record.clasificacion_energetica.raw_value in ['0', 'eco']">
-                                    <div>Clasificación Energética: <field name="clasificacion_energetica"/></div>
+                                <t t-if="record.clasificacion_energetica and record.clasificacion_energetica.value">
+                                    <div>Clasificación: <field name="clasificacion_energetica"/></div>
                                 </t>
-
-                                <!-- Enganche para Carro -->
-                                <t t-if="record.enganche_carro and record.enganche_carro.raw_value">
+                                <t t-if="record.enganche_carro and record.enganche_carro.value">
                                     <div>Enganche para Carro: Sí</div>
                                 </t>
                             </div>
@@ -39,7 +48,7 @@
 
     <!-- Vista de árbol -->
     <record id="azp_tipos_vehiculos_view_tree" model="ir.ui.view">
-        <field name="name">Lista de Tipos de Vehículos</field>
+        <field name="name">azp_tipos_vehiculos.tree</field>
         <field name="model">azp_tipos_vehiculos</field>
         <field name="arch" type="xml">
             <tree string="Tipos de Vehículos">
@@ -57,50 +66,33 @@
         <field name="arch" type="xml">
             <form string="Tipo de Vehículo">
                 <header>
-                    <!-- Botón de Estadísticas -->
-                    <button name="%(azp_alquileres_vehiculos_action)d"
-                            type="action"
-                            string="Alquileres"
-                            icon="fa-car"
-                            class="oe_stat_button"
-                            context="{'default_tipo_vehiculo_id': id}"
-                            attrs="{'invisible': [('alquileres_count', '=', 0)]}">
+                    <!-- Botón de estadísticas -->
+                    <button
+                        name="action_estadisticas"
+                        string="Alquileres"
+                        type="object"
+                        icon="fa-bar-chart"
+                        class="oe_stat_button"
+                        attrs="{'invisible': [('alquileres_count', '=', 0)]}"
+                    >S
                         <field name="alquileres_count" widget="statinfo"/>
                     </button>
                 </header>
                 <sheet>
-                    <div class="oe_title">
-                        <h1>
-                            <field name="name"/>
-                        </h1>
-                    </div>
                     <group>
+                        <field name="name"/>
                         <field name="clasificacion_energetica"/>
+                        <button name="action_clasificacion_wizard" type="object" string="Elegir Clasificación" class="btn-primary"/>
                         <field name="enganche_carro"/>
                     </group>
-                    <notebook>
-                        <page string="Vehículos Asociados">
-                            <field name="vehiculos_ids" readonly="1">
-                                <tree string="Vehículos">
-                                    <field name="name"/>
-                                    <field name="codigo"/>
-                                    <field name="matricula"/>
-                                    <field name="precio_diario"/>
-                                    <field name="numero_alquileres"/>
-                                </tree>
-                            </field>
-                        </page>
-                    </notebook>
                 </sheet>
             </form>
         </field>
     </record>
 
-    <!-- Registro de acción de alquileres de vehículos -->
-    <record id="azp_alquileres_vehiculos_action" model="ir.actions.act_window">
-        <field name="name">Listado de Alquileres</field>
-        <field name="res_model">azp_alquileres_vehiculos</field>
-        <field name="view_mode">tree,form</field>
-        <field name="domain">[('vehiculo_id.tipo_vehiculo_id', '=', context.get('default_tipo_vehiculo_id'))]</field>
-    </record>
+    <!--<menuitem id="azp_submenu_generate_tipo_vehiculo"
+              name="Generar tipo de vehiculo"
+              parent="azp_opciones_menu"
+              sequence="40"
+              action="azp_server_action_generar_tipo_vehiculo"/>-->
 </odoo>

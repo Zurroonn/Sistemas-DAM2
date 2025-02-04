@@ -1,24 +1,24 @@
-<?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <record id="view_res_partner_form_inherited" model="ir.ui.view">
-        <field name="name">res.partner.form.inherited</field>
+    <!-- Herencia del formulario de res.partner para incluir Alquileres -->
+    <record id="view_res_users_form_inherit_alquileres" model="ir.ui.view">
+        <field name="name">res.users.form.alquileres.inherit</field>
         <field name="model">res.partner</field>
         <field name="inherit_id" ref="base.view_partner_form"/>
         <field name="arch" type="xml">
-            <notebook position="inside">
+            <xpath expr="//notebook" position="inside">
                 <page string="Alquileres de Vehículos">
-                    <field name="alquileres_ids">
+                    <field name="alquileres_ids" readonly="1">
                         <tree>
                             <field name="vehiculo_id"/>
                             <field name="fecha_inicio"/>
                             <field name="fecha_fin"/>
                             <field name="duracion"/>
-                            <field name="precio_final"/>
                             <field name="state"/>
+                            <field name="precio_final"/>
                         </tree>
                     </field>
                 </page>
-            </notebook>
+            </xpath>
         </field>
     </record>
 </odoo>

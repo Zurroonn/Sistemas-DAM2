@@ -14,4 +14,5 @@
         <menuitem id="azp_tipos_vehiculos_menu" name="Tipos de Vehículos" action="azp_tipos_vehiculos_action" sequence="21"/>
         <menuitem id="azp_caracteristicas_menu" name="Características Especiales" action="azp_caracteristicas_vehiculos_action" sequence="22"/>
     </menuitem>
+        <menuitem id="azp_menu_generate_tipo_vehiculo" name="Generar Tipo de Vehículo" parent="azp_opciones_menu" sequence="35"  action="azp_generate_tipo_vehiculo_action"/>
 </odoo>
